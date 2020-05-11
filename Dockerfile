@@ -1,7 +1,12 @@
-FROM alpine
+FROM ekidd/rust-musl-builder:latest
+LABEL maintainer="eye@eyenx.ch"
 
-RUN  apk add --no-cache cargo git openssl-dev && git clone https://github.com/matrix-org/matrix-ircd /matrix-ircd && cd /matrix-ircd && \
-     cargo build && mv /matrix-ircd/target/debug/matrix-ircd /usr/local/bin && rm -rf /matrix-ircd
+RUN  git clone https://github.com/matrix-org/matrix-ircd && \
+     cd matrix-ircd && \
+     cargo build
 
-ENTRYPOINT  ["matrix-ircd"]
+FROM scratch
 
+COPY --from=0 /home/rust/src/matrix-ircd/target/x86_64-unknown-linux-musl/debug/matrix-ircd /matrix-ircd
+
+ENTRYPOINT  ["/matrix-ircd"]

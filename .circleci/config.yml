@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Test Image
           command: |
-            docker run eyenx/matrix-ircd matrix-ircd-sync --help
+            docker run eyenx/matrix-ircd --help
       - run:
           name: Push Image
           command: |
