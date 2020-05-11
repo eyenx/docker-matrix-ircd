@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Image
+          command: |
+            docker build -t eyenx/matrix-ircd . 
+      - run:
+          name: Test Image
+          command: |
+            docker run eyenx/matrix-ircd matrix-ircd-sync --help
+      - run:
+          name: Push Image
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin && docker tag eyenx/matrix-ircd:latest eyenx/matrix-ircd:$CIRCLE_SHA1 && docker push eyenx/matrix-ircd:latest && docker push eyenx/matrix-ircd:$CIRCLE_SHA1
