@@ -1,6 +1,6 @@
 	
 FROM	ekidd/rust-musl-builder:latest
-LABEL	org.opencontainers.image.source="Toni Tauro <eye@eyenx.ch>"
+LABEL	org.opencontainers.image.authors="Toni Tauro <eye@eyenx.ch>"
 RUN	git clone https://github.com/matrix-org/matrix-ircd \
 	&& cd matrix-ircd \
 	&& cargo build
